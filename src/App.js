@@ -4,28 +4,22 @@ import FeedbackList from "./components/FeedbackList";
 import FeedbackData from "./data/FeedbackData";
 import FeedbackStats from "./components/FeedbackStats";
 import FeedbackForm from "./components/FeedbackForm";
+import { FeedbackProvider } from "./context/FeedbackContext";
+
 import "./index.css";
 
 function App() {
   const [feedbacks, setFeedbacks] = useState(FeedbackData);
 
-  const handleAdd = (newFeedback) => {
-    setFeedbacks([...feedbacks, newFeedback]);
-  };
-
-  const handleDelete = (id) => {
-    const filtered = feedbacks.filter((f) => f.id !== id);
-    setFeedbacks(filtered);
-  };
   return (
-    <>
+    <FeedbackProvider>
       <Header />
       <div className="container">
-        <FeedbackForm handleAdd={handleAdd} />
-        <FeedbackStats feedbacks={feedbacks} />
-        <FeedbackList handleDelete={handleDelete} feedbacks={feedbacks} />
+        <FeedbackForm />
+        <FeedbackStats />
+        <FeedbackList />
       </div>
-    </>
+    </FeedbackProvider>
   );
 }
 

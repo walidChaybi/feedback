@@ -1,4 +1,8 @@
-function FeedbackStats({ feedbacks }) {
+import { useContext } from "react";
+import FeedbackContext from "../context/FeedbackContext";
+
+function FeedbackStats() {
+  const { feedbacks } = useContext(FeedbackContext);
   //claculate the average Rating
   let average = (
     feedbacks.reduce((acc, cur) => {
@@ -10,7 +14,7 @@ function FeedbackStats({ feedbacks }) {
     <>
       <div className="feedback-stats">
         <h4>{feedbacks.length} Reviews</h4>
-        <h4>Average : {average ? average : "0"}</h4>
+        <h4>Average : {isNaN(average) ? "0" : average}</h4>
       </div>
     </>
   );
