@@ -1,35 +1,43 @@
 import { v4 as uuidv4 } from "uuid";
 import FeedbackContext from "../context/FeedbackContext";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import Card from "./Card";
 import Button from "./Button";
 import RatingSelect from "./RatingSelect";
 
 function FeedbackForm() {
-  const { handleAdd } = useContext(FeedbackContext);
+  const { handleAdd, feedbackEdit, updateFeedback } =
+    useContext(FeedbackContext);
   const [text, setText] = useState("");
   const [rating, setRating] = useState(null);
   const [disabled, setDisabled] = useState(true);
   const [message, setMessage] = useState("at least 10 caractere is required");
 
+  useEffect(() => {
+    if (feedbackEdit.edit === true) {
+      setText(feedbackEdit.item.text);
+    }
+  }, [feedbackEdit]);
+
   const handleText = (e) => {
     setText(e.target.value);
-    if (text.length > 10) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
+    text.length > 10 ? setDisabled(false) : setDisabled(true);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const newFeedback = {
       text,
       rating,
       id: uuidv4(),
     };
-    handleAdd(newFeedback);
+    if (feedbackEdit.edit) {
+      updateFeedback(feedbackEdit.item.id, newFeedback);
+    } else {
+      console.log(feedbackEdit.edit);
+      handleAdd(newFeedback);
+    }
+
     setText("");
   };
 
