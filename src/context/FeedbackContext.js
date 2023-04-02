@@ -43,6 +43,7 @@ export const FeedbackProvider = ({ children }) => {
         feedbackEdit,
         editFeedback,
         updateFeedback,
+        setFeedbackEdit,
       }}
     >
       {children}

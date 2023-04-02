@@ -6,7 +6,7 @@ import Button from "./Button";
 import RatingSelect from "./RatingSelect";
 
 function FeedbackForm() {
-  const { handleAdd, feedbackEdit, updateFeedback } =
+  const { handleAdd, feedbackEdit, updateFeedback, setFeedbackEdit } =
     useContext(FeedbackContext);
   const [text, setText] = useState("");
   const [rating, setRating] = useState(null);
@@ -33,6 +33,10 @@ function FeedbackForm() {
     };
     if (feedbackEdit.edit) {
       updateFeedback(feedbackEdit.item.id, newFeedback);
+      setFeedbackEdit({
+        item: {},
+        edit: false,
+      });
     } else {
       console.log(feedbackEdit.edit);
       handleAdd(newFeedback);
