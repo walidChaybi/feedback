@@ -1,25 +1,45 @@
+import { v4 as uuidv4 } from "uuid";
+
 import { useState } from "react";
 import Card from "./Card";
 import Button from "./Button";
-function FeedbackForm() {
+import RatingSelect from "./RatingSelect";
+function FeedbackForm({ handleAdd }) {
   const [text, setText] = useState("");
-  const [rating, setRating] = useState(10);
+  const [rating, setRating] = useState(null);
   const [disabled, setDisabled] = useState(true);
   const [message, setMessage] = useState("at least 10 caractere is required");
 
   const handleText = (e) => {
     setText(e.target.value);
-    console.log(text);
     if (text.length > 10) {
       setDisabled(false);
     } else {
       setDisabled(true);
     }
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const newFeedback = {
+      text,
+      rating,
+      id: uuidv4(),
+    };
+    handleAdd(newFeedback);
+    setText("");
+  };
+
   return (
     <Card>
-      <form>
+      <form onSubmit={handleSubmit}>
         <h2>How would you rate us?</h2>
+        <RatingSelect
+          select={(r) => {
+            setRating(r);
+          }}
+        />
         <div className="input-group">
           <input
             onChange={handleText}

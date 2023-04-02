@@ -7,16 +7,21 @@ import FeedbackForm from "./components/FeedbackForm";
 import "./index.css";
 
 function App() {
-  const [feedbacks, setFeedback] = useState(FeedbackData);
+  const [feedbacks, setFeedbacks] = useState(FeedbackData);
+
+  const handleAdd = (newFeedback) => {
+    setFeedbacks([...feedbacks, newFeedback]);
+  };
+
   const handleDelete = (id) => {
     const filtered = feedbacks.filter((f) => f.id !== id);
-    setFeedback(filtered);
+    setFeedbacks(filtered);
   };
   return (
     <>
       <Header />
       <div className="container">
-        <FeedbackForm />
+        <FeedbackForm handleAdd={handleAdd} />
         <FeedbackStats feedbacks={feedbacks} />
         <FeedbackList handleDelete={handleDelete} feedbacks={feedbacks} />
       </div>
